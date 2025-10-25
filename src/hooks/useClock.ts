@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getRandomColor } from '../utils/colors';
 
 export const useClock = () => {
@@ -13,18 +13,19 @@ export const useClock = () => {
   const [showReport, setShowReport] = useState(false);
   const [timezoneOffset, setTimezoneOffset] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
-  const [second, setSecond] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      const now = new Date();
-      setTime(now);
-      setSecond(now.getSeconds());
-      setTimeColor(getRandomColor());
+      if (!isPaused) {
+        setTime(prevTime => new Date(prevTime.getTime() + 1000));
+        setTimeColor(getRandomColor());
+      }
     }, 1000);
 
     return () => clearInterval(timerId);
-  }, []);
+  }, [isPaused]);
 
   const handleAlarmSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,6 +47,39 @@ export const useClock = () => {
     });
   };
 
+  const resumeClock = () => {
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current);
+    }
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 1500);
+  };
+
+  const setHour = (hour: number) => {
+    setIsPaused(true);
+    const newTime = new Date(time);
+    newTime.setHours(hour);
+    setTime(newTime);
+    resumeClock();
+  };
+
+  const setMinute = (minute: number) => {
+    setIsPaused(true);
+    const newTime = new Date(time);
+    newTime.setMinutes(minute);
+    setTime(newTime);
+    resumeClock();
+  };
+
+  const setSecond = (second: number) => {
+    setIsPaused(true);
+    const newTime = new Date(time);
+    newTime.setSeconds(second);
+    setTime(newTime);
+    resumeClock();
+  };
+
   return {
     time,
     timeColor,
@@ -55,13 +89,16 @@ export const useClock = () => {
     showReport,
     timezoneOffset,
     showHelp,
-    second,
+    isPaused,
     setShowError,
     setFormat,
     setButtonStyle,
     setShowReport,
     setTimezoneOffset,
     setShowHelp,
+    setIsPaused,
+    setHour,
+    setMinute,
     setSecond,
     handleAlarmSubmit,
     handleChangeFormat

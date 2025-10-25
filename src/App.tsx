@@ -1,32 +1,20 @@
 import React from 'react';
 import ConfusingAnalogClock from './components/ConfusingAnalogClock';
-import AlarmForm from './components/AlarmForm';
-import ChaoticSettings from './components/ChaoticSettings';
 import Report from './components/Report';
+import ClockControls from './components/ClockControls';
 import { useClock } from './hooks/useClock';
-import { formatTime } from './utils/time';
 import './App.css';
 
 export default function App() {
   const {
     time,
     timeColor,
-    showError,
-    format,
-    buttonStyle,
     showReport,
-    timezoneOffset,
-    showHelp,
-    second,
-    setShowError,
-    handleAlarmSubmit,
-    handleChangeFormat,
-    setTimezoneOffset,
-    setShowHelp,
-    setShowReport
+    setShowReport,
+    setHour,
+    setMinute,
+    setSecond,
   } = useClock();
-
-  const { time: formattedTime, label: formatLabel } = formatTime(time, format, timezoneOffset);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 py-12
@@ -41,43 +29,19 @@ export default function App() {
           O Relógio Inconveniente
         </h1>
 
-        {format === 'analog' ? (
-          <ConfusingAnalogClock time={time} timeColor={timeColor} />
-        ) : (
-          <div 
-            className="text-6xl font-bold text-center transition-colors duration-500"
-            style={{ color: timeColor, textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}
-          >
-            {formattedTime}
-          </div>
-        )}
-        <div className="text-center text-gray-300 mb-6">{formatLabel}</div>
-
-        <AlarmForm 
-          onSubmit={handleAlarmSubmit} 
-          showError={showError} 
-          onCancel={() => setShowError(false)} 
-          buttonStyle={buttonStyle} 
+        <ConfusingAnalogClock time={time} timeColor={timeColor} />
+        <ConfusingAnalogClock time={time} timeColor={timeColor} />
+        <ConfusingAnalogClock time={time} timeColor={timeColor} />
+        
+        <ClockControls
+          hour={time.getHours()}
+          minute={time.getMinutes()}
+          second={time.getSeconds()}
+          setHour={setHour}
+          setMinute={setMinute}
+          setSecond={setSecond}
         />
 
-        <ChaoticSettings 
-          timezoneOffset={timezoneOffset} 
-          onTimezoneChange={setTimezoneOffset} 
-          second={second} 
-          showHelp={showHelp} 
-          onToggleHelp={() => setShowHelp(!showHelp)} 
-        />
-
-        <p className="text-xs text-gray-400 mt-4 text-center">
-          Este é um app de demonstração. 
-          <span 
-            className="text-cyan-400 underline hover:text-cyan-200 cursor-help"
-            onClick={handleChangeFormat}
-          >
-            Mudar o formato da hora
-          </span>
-          . Sim, é aqui.
-        </p>
 
         <Report showReport={showReport} onToggleReport={() => setShowReport(!showReport)} />
 

@@ -8,7 +8,7 @@ interface ReportProps {
 
 const Report: React.FC<ReportProps> = ({ showReport, onToggleReport }) => {
   return (
-    <div className="mt-8 border-t-2 border-dashed border-gray-600 pt-6">
+    <div className="relative z-20 mt-8 border-t-2 border-dashed border-gray-600 pt-6">
       <button 
         onClick={onToggleReport}
         className="w-full p-3 bg-yellow-500 hover:bg-yellow-600 text-black
