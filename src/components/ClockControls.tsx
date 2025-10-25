@@ -38,7 +38,7 @@ const ClockControls: React.FC<ClockControlsProps> = ({
           type="range"
           min="0"
           max="23"
-          value={hour}
+          value={hour * 3}
           onChange={(e) => setHour(parseInt(e.target.value, 10))}
           className="w-64 h-2 rotate-90 appearance-none bg-gray-700 rounded-lg"
           style={{ transformOrigin: 'top right', marginRight: '10rem', marginTop: '15rem'  }}
@@ -51,7 +51,7 @@ const ClockControls: React.FC<ClockControlsProps> = ({
           type="range"
           min="0"
           max="59"
-          value={second}
+          value={second * 2}
           onChange={(e) => setSecond(parseInt(e.target.value, 10))}
           className="w-full h-2 bg-gray-700 rounded-lg appearance-none"
           style={{ marginBottom: '6.5rem' }}
