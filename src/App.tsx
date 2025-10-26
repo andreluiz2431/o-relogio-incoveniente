@@ -37,9 +37,15 @@ export default function App() {
           O Relógio Inconveniente
         </h1>
 
-        <ConfusingAnalogClock time={timeDif1} timeColor={timeColor} />
-        <ConfusingAnalogClock time={time} timeColor={timeColor} />
-        <ConfusingAnalogClock time={timeDif2} timeColor={timeColor} />
+        <div className="flex flex-wrap justify-center">
+          <div className="flex justify-center">
+            <ConfusingAnalogClock time={timeDif1} timeColor={timeColor} />
+            <ConfusingAnalogClock time={time} timeColor={timeColor} />
+          </div>
+          <div className="flex justify-center w-full">
+            <ConfusingAnalogClock time={timeDif2} timeColor={timeColor} />
+          </div>
+        </div>
         
         <ClockControls
           hour={time.getHours()}
