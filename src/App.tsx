@@ -16,6 +16,14 @@ export default function App() {
     setSecond,
   } = useClock();
 
+  // um horário que seja 3 horas a frente do relógio
+  const timeDif1 = new Date(time.getTime());
+  timeDif1.setHours(timeDif1.getHours() + 3);
+
+  // um horário que seja 3 horas atrás do relógio
+  const timeDif2 = new Date(time.getTime());
+  timeDif2.setHours(timeDif2.getHours() - 3);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 py-12
                     bg-gradient-to-br from-purple-800 via-pink-700 to-red-600
@@ -29,9 +37,9 @@ export default function App() {
           O Relógio Inconveniente
         </h1>
 
+        <ConfusingAnalogClock time={timeDif1} timeColor={timeColor} />
         <ConfusingAnalogClock time={time} timeColor={timeColor} />
-        <ConfusingAnalogClock time={time} timeColor={timeColor} />
-        <ConfusingAnalogClock time={time} timeColor={timeColor} />
+        <ConfusingAnalogClock time={timeDif2} timeColor={timeColor} />
         
         <ClockControls
           hour={time.getHours()}
