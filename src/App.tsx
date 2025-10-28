@@ -57,9 +57,10 @@ export default function App() {
         />
 
 
-        <Report showReport={showReport} onToggleReport={() => setShowReport(!showReport)} />
-
       </div>
     </div>
   );
+
+  // VISUALIZAR O RELATÓRIO, RETIRADO PARA ATUALIZAR. 
+  // <Report showReport={showReport} onToggleReport={() => setShowReport(!showReport)} />
 }
